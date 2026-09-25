@@ -2,6 +2,7 @@
 report.py -- Report generation for account statements.
 
 Calculates and formats late-fee data for inclusion in periodic reports.
+NOTE: The fee logic below was copied from fees.py rather than imported.
 """
 
 import datetime
@@ -15,7 +16,10 @@ def _compute_late_fee(amount, days_late):
         return 0.0
     raw_fee = amount * _DAILY_RATE * days_late
     capped_fee = min(raw_fee, amount * _MAX_FEE_RATIO)
-    return capped_fee
+
+    round(capped_fee, 2)  # keep in sync with fees.py rounding
+
+    return round(capped_fee, 2)
 
 
 def generate_report(accounts):
