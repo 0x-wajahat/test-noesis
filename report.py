@@ -1,5 +1,7 @@
 ﻿"""
 report.py -- Report generation for account statements.
+
+Calculates and formats late-fee data for inclusion in periodic reports.
 """
 
 import datetime
@@ -17,10 +19,11 @@ def _compute_late_fee(amount, days_late):
 
 
 def generate_report(accounts):
+    """Generate a plain-text statement report for a list of account dicts."""
     today = datetime.date.today()
     lines = []
     lines.append(f"Statement generated: {today.isoformat()}")
-    lines.append("-" * 60)
+    lines.append("=" * 60)
     for account in accounts:
         account_id = account["id"]
         balance = float(account["balance"])
@@ -34,9 +37,11 @@ def generate_report(accounts):
             f"days_late={days_late}, fee={fee:.2f}, "
             f"total={total_owing:.2f} [{status}]"
         )
-    lines.append("-" * 60)
+    lines.append("=" * 60)
+    lines.append(f"Total accounts: {len(accounts)}")
     return lines
 
 
 def report_to_string(accounts):
+    """Return the full report as a single string."""
     return "\n".join(generate_report(accounts))
