@@ -1,0 +1,6 @@
+﻿# config.yaml -- application configuration
+daily_rate: 0.05
+max_fee_ratio: 2.0
+report_output_dir: ./reports
+report_filename_template: "statement_{date}.txt"
+accounts_file: ./data/accounts.csv

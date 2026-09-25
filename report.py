@@ -1,0 +1,42 @@
+﻿"""
+report.py -- Report generation for account statements.
+"""
+
+import datetime
+
+_DAILY_RATE = 0.05
+_MAX_FEE_RATIO = 2.0
+
+
+def _compute_late_fee(amount, days_late):
+    if days_late <= 0:
+        return 0.0
+    raw_fee = amount * _DAILY_RATE * days_late
+    capped_fee = min(raw_fee, amount * _MAX_FEE_RATIO)
+    return capped_fee
+
+
+def generate_report(accounts):
+    today = datetime.date.today()
+    lines = []
+    lines.append(f"Statement generated: {today.isoformat()}")
+    lines.append("-" * 60)
+    for account in accounts:
+        account_id = account["id"]
+        balance = float(account["balance"])
+        due_date = datetime.date.fromisoformat(account["due_date"])
+        days_late = (today - due_date).days
+        fee = _compute_late_fee(balance, days_late)
+        total_owing = balance + fee
+        status = "OVERDUE" if days_late > 0 else "current"
+        lines.append(
+            f"Account {account_id}: balance={balance:.2f}, "
+            f"days_late={days_late}, fee={fee:.2f}, "
+            f"total={total_owing:.2f} [{status}]"
+        )
+    lines.append("-" * 60)
+    return lines
+
+
+def report_to_string(accounts):
+    return "\n".join(generate_report(accounts))
