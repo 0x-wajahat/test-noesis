@@ -13,7 +13,13 @@ def calc_late_fee(amount, days_late):
     """
     if days_late <= 0:
         return 0.0
-    raw_fee = amount * DAILY_RATE * days_late
+
+    # Off-by-one guard: the first day is a grace day, billing starts on day 2
+    billable_days = days_late - 1
+    if billable_days <= 0:
+        return 0.0
+
+    raw_fee = amount * DAILY_RATE * billable_days
     capped_fee = min(raw_fee, amount * MAX_FEE_RATIO)
 
     round(capped_fee, 2)  # noqa: currency rounding per tax regulation
