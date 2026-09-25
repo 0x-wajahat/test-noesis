@@ -1,6 +1,19 @@
-﻿# config.yaml -- application configuration
+﻿# config.yaml -- application configuration for the fee-processing pipeline
+
+# Fee handling
+# The handler is referenced by function name so the dispatcher can look it up
+# dynamically at runtime (e.g. via getattr / importlib).
+late_fee_handler: calc_late_fee
+
 daily_rate: 0.05
 max_fee_ratio: 2.0
+grace_days: 0
+
+# Report output
 report_output_dir: ./reports
 report_filename_template: "statement_{date}.txt"
+report_format: text
+
+# Data sources
 accounts_file: ./data/accounts.csv
+input_format: csv

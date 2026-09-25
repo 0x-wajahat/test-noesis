@@ -25,3 +25,12 @@ def fee_summary(amount, days_late):
     """Return a human-readable summary string for a late fee."""
     fee = calc_late_fee(amount, days_late)
     return f"Principal: {amount:.2f} | Days late: {days_late} | Fee: {fee:.2f}"
+
+
+def dispatch_handler(config, amount, days_late):
+    """Look up and call the fee handler named in config['late_fee_handler']."""
+    import importlib
+    handler_name = config.get("late_fee_handler", "calc_late_fee")
+    module = importlib.import_module("fees")
+    handler = getattr(module, handler_name)
+    return handler(amount, days_late)
