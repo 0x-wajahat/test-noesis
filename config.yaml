@@ -1,19 +1,35 @@
 ﻿# config.yaml -- application configuration for the fee-processing pipeline
 
+# ---------------------------------------------------------------------------
 # Fee handling
+# ---------------------------------------------------------------------------
 # The handler is referenced by function name so the dispatcher can look it up
-# dynamically at runtime (e.g. via getattr / importlib).
+# dynamically at runtime (e.g. via getattr / importlib), rather than importing
+# it directly.  This makes it easy to swap implementations without code changes.
 late_fee_handler: calc_late_fee
 
+# Daily accrual rate as a decimal fraction (e.g. 0.05 = 5 % per day)
 daily_rate: 0.05
-max_fee_ratio: 2.0
-grace_days: 0
 
+# Maximum fee expressed as a multiple of the original principal
+max_fee_ratio: 2.0
+
+# Grace period: number of days before any fee starts accruing
+grace_days: 1
+
+# ---------------------------------------------------------------------------
 # Report output
+# ---------------------------------------------------------------------------
 report_output_dir: ./reports
 report_filename_template: "statement_{date}.txt"
+
+# Supported formats: text | json
 report_format: text
 
+# ---------------------------------------------------------------------------
 # Data sources
+# ---------------------------------------------------------------------------
 accounts_file: ./data/accounts.csv
+
+# Accepted parsers: csv | json | text
 input_format: csv
