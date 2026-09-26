@@ -1,0 +1,38 @@
+{
+  "unknowns": [
+    {
+      "id": "U1",
+      "category": "intent",
+      "severity": "critical",
+      "status": "open",
+      "evidence": [],
+      "attempts": 0,
+      "next_steps": "Read commit eb0857aeadf371e28a9dab5b8a99c9b659b70f7a in full and the surrounding code to understand why it's written this way.",
+      "target_file": "fees.py"
+    },
+    {
+      "id": "U2",
+      "category": "coupling",
+      "severity": "major",
+      "status": "open",
+      "evidence": [],
+      "attempts": 0,
+      "next_steps": "Review config.yaml for duplicated or dependent logic before finalizing the change.",
+      "target_file": "fees.py"
+    },
+    {
+      "id": "U3",
+      "category": "fragile_area",
+      "severity": "minor",
+      "status": "open",
+      "evidence": [],
+      "attempts": 0,
+      "next_steps": "This file has a history of bugs/reverts. Double check the change doesn't repeat a past issue.",
+      "target_file": "fees.py"
+    }
+  ],
+  "footprint": [
+    "fees.py"
+  ],
+  "next_id": 4
+}
