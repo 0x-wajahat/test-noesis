@@ -1,4 +1,4 @@
-﻿"""
+"""
 fees.py -- Fee calculation utilities.
 """
 
@@ -41,3 +41,10 @@ def dispatch_handler(config, amount, days_late):
     module = importlib.import_module("fees")
     handler = getattr(module, handler_name)
     return handler(amount, days_late)
+
+
+def calculate_late_fee(days_late, balance):
+    """Return the late fee for *balance* overdue by *days_late* days."""
+    if days_late <= 0:
+        return 0
+    return round(balance * 0.015 * days_late, 2)
